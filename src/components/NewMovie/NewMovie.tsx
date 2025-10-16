@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 
-const urlPattern =
-  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+const urlPattern = new RegExp(
+  '^' +
+    '((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+' +
+    '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
+    '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?' +
+    ')$',
+);
 
 type Movie = {
   title: string;
@@ -43,14 +48,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-  
-    if (!isValid) return;
-  
-    if (!isUrlValid(movie.imgUrl) || !isUrlValid(movie.imdbUrl)) {
-      alert('Please enter valid URLs');
+
+    if (!isValid) {
       return;
     }
-  
+
+    if (!isUrlValid(movie.imgUrl) || !isUrlValid(movie.imdbUrl)) {
+      alert('Please enter valid URLs');
+
+      return;
+    }
+
     const newMovie = {
       title: movie.title.trim(),
       description: movie.description.trim(),
@@ -58,9 +66,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
       imdbUrl: movie.imdbUrl.trim(),
       imdbId: movie.imdbId.trim(),
     };
-  
+
     onAdd(newMovie);
-  
+
     setMovie({
       title: '',
       description: '',
@@ -69,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
       imdbId: '',
       rating: '',
     });
-  
+
     setFormKey(prev => prev + 1);
   };
 

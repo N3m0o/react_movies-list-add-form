@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
-  validate?: (value: string) => boolean; 
+  validate?: (value: string) => boolean;
 };
 
 function getRandomDigits() {
@@ -33,6 +33,7 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && (isEmpty || isInvalid);
 
   let errorMessage = '';
+
   if (touched) {
     if (isEmpty) {
       errorMessage = `${label} is required`;
