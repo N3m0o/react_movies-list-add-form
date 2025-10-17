@@ -131,7 +131,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         label="Rating"
         value={movie.rating || ''}
         onChange={val => handleChange('rating', val)}
-        required
       />
 
       <div className="field is-grouped">
